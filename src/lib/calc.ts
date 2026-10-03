@@ -93,3 +93,21 @@ export function rangeBounds(r: Range, from?: string, to?: string): [Date, Date] 
   }
 }
 export const inRange = (iso: string, [a, b]: [Date, Date]) => { const d = new Date(iso); return d >= a && d < b; };
+
+// One-time sample records the user explicitly requested (2 cars, 2 drivers).
+// Runs only once per browser, and only if the fleet and driver lists are empty.
+function seedSampleOnce() {
+  if (typeof window === "undefined") return;
+  const KEY = "fleetledger-sample-seeded";
+  if (localStorage.getItem(KEY)) return;
+  localStorage.setItem(KEY, "1");
+  const s = useStore.getState();
+  if (s.cars.length === 0) {
+    s.addCar({ registration: "AB21 CDE", make: "Toyota", model: "Corolla", year: 2021, mileage: 24500, color: "White", status: "available", notes: "", motExpiry: "2027-03-15", insuranceExpiry: "2027-01-31" });
+    s.addCar({ registration: "FG22 HJK", make: "Ford", model: "Focus", year: 2022, mileage: 18200, color: "Blue", status: "available", notes: "", motExpiry: "2027-06-20", insuranceExpiry: "2027-04-30" });
+  }
+  if (s.drivers.length === 0) {
+    s.addDriver({ fullName: "James Smith", phone: "07700 900123", email: "james.smith@example.co.uk", address: "12 High Street, London, E1 6AN", licenceNumber: "SMITH801015J99AB", licenceExpiry: "2030-10-15", notes: "" });
+    s.addDriver({ fullName: "Aisha Khan", phone: "07700 900456", email: "aisha.khan@example.co.uk", address: "45 Park Road, Birmingham, B15 2TT", licenceNumber: "KHAN9905224A99CD", licenceExpiry: "2031-05-22", notes: "" });
+  }
+}
