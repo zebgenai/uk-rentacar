@@ -1,6 +1,6 @@
 import type { Booking, BookingStatus, Car, CarStatus, Invoice, InvoiceStatus, Payment, Expense } from "./store";
 import { useStore } from "./store";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 
 export const gbp = (n: number) =>
   new Intl.NumberFormat("en-GB", { style: "currency", currency: "GBP", minimumFractionDigits: 2 }).format(n || 0);
@@ -66,10 +66,14 @@ export function outstandingTotal(bookings: Booking[], payments: Payment[]) {
 }
 
 /** Rehydrate persisted store on the client after first render (SSR-safe). */
+const useIsoLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
 export function useHydrateStore() {
-  const [ready, setReady] = useState(false);
-  useEffect(() => {
-    Promise.resolve(useStore.persist.rehydrate()).then(() => setReady(true));
+  const [ready, setReady] = useState(() => typeof window !== "undefined" && useStore.persist.hasHydrated());
+  useIsoLayoutEffect(() => {
+    if (useStore.persist.hasHydrated()) { setReady(true); return; }
+    // localStorage rehydration is synchronous — runs before paint, so no skeleton flash.
+    useStore.persist.rehydrate();
+    setReady(true);
   }, []);
   return ready;
 }
