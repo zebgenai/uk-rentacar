@@ -73,6 +73,7 @@ export function useHydrateStore() {
     if (useStore.persist.hasHydrated()) { setReady(true); return; }
     // localStorage rehydration is synchronous — runs before paint, so no skeleton flash.
     useStore.persist.rehydrate();
+    seedSampleOnce();
     setReady(true);
   }, []);
   return ready;
