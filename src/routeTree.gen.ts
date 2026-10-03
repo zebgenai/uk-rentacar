@@ -10,16 +10,30 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ExpensesRouteImport } from './routes/expenses'
+import { Route as PaymentsRouteImport } from './routes/payments'
 import { Route as BookingsIndexRouteImport } from './routes/bookings.index'
 import { Route as BookingsIdRouteImport } from './routes/bookings.$id'
 import { Route as DriversIndexRouteImport } from './routes/drivers.index'
 import { Route as DriversIdRouteImport } from './routes/drivers.$id'
 import { Route as FleetIndexRouteImport } from './routes/fleet.index'
 import { Route as FleetIdRouteImport } from './routes/fleet.$id'
+import { Route as InvoicesIndexRouteImport } from './routes/invoices.index'
+import { Route as InvoicesIdRouteImport } from './routes/invoices.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExpensesRoute = ExpensesRouteImport.update({
+  id: '/expenses',
+  path: '/expenses',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PaymentsRoute = PaymentsRouteImport.update({
+  id: '/payments',
+  path: '/payments',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BookingsIndexRoute = BookingsIndexRouteImport.update({
@@ -52,73 +66,111 @@ const FleetIdRoute = FleetIdRouteImport.update({
   path: '/fleet/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const InvoicesIndexRoute = InvoicesIndexRouteImport.update({
+  id: '/invoices/',
+  path: '/invoices/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InvoicesIdRoute = InvoicesIdRouteImport.update({
+  id: '/invoices/$id',
+  path: '/invoices/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/expenses': typeof ExpensesRoute
+  '/payments': typeof PaymentsRoute
   '/bookings/$id': typeof BookingsIdRoute
   '/drivers/$id': typeof DriversIdRoute
   '/fleet/$id': typeof FleetIdRoute
+  '/invoices/$id': typeof InvoicesIdRoute
   '/bookings/': typeof BookingsIndexRoute
   '/drivers/': typeof DriversIndexRoute
   '/fleet/': typeof FleetIndexRoute
+  '/invoices/': typeof InvoicesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/expenses': typeof ExpensesRoute
+  '/payments': typeof PaymentsRoute
   '/bookings/$id': typeof BookingsIdRoute
   '/drivers/$id': typeof DriversIdRoute
   '/fleet/$id': typeof FleetIdRoute
+  '/invoices/$id': typeof InvoicesIdRoute
   '/bookings': typeof BookingsIndexRoute
   '/drivers': typeof DriversIndexRoute
   '/fleet': typeof FleetIndexRoute
+  '/invoices': typeof InvoicesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/expenses': typeof ExpensesRoute
+  '/payments': typeof PaymentsRoute
   '/bookings/$id': typeof BookingsIdRoute
   '/drivers/$id': typeof DriversIdRoute
   '/fleet/$id': typeof FleetIdRoute
+  '/invoices/$id': typeof InvoicesIdRoute
   '/bookings/': typeof BookingsIndexRoute
   '/drivers/': typeof DriversIndexRoute
   '/fleet/': typeof FleetIndexRoute
+  '/invoices/': typeof InvoicesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/expenses'
+    | '/payments'
     | '/bookings/$id'
     | '/drivers/$id'
     | '/fleet/$id'
+    | '/invoices/$id'
     | '/bookings/'
     | '/drivers/'
     | '/fleet/'
+    | '/invoices/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/expenses'
+    | '/payments'
     | '/bookings/$id'
     | '/drivers/$id'
     | '/fleet/$id'
+    | '/invoices/$id'
     | '/bookings'
     | '/drivers'
     | '/fleet'
+    | '/invoices'
   id:
     | '__root__'
     | '/'
+    | '/expenses'
+    | '/payments'
     | '/bookings/$id'
     | '/drivers/$id'
     | '/fleet/$id'
+    | '/invoices/$id'
     | '/bookings/'
     | '/drivers/'
     | '/fleet/'
+    | '/invoices/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ExpensesRoute: typeof ExpensesRoute
+  PaymentsRoute: typeof PaymentsRoute
   BookingsIdRoute: typeof BookingsIdRoute
   DriversIdRoute: typeof DriversIdRoute
   FleetIdRoute: typeof FleetIdRoute
+  InvoicesIdRoute: typeof InvoicesIdRoute
   BookingsIndexRoute: typeof BookingsIndexRoute
   DriversIndexRoute: typeof DriversIndexRoute
   FleetIndexRoute: typeof FleetIndexRoute
+  InvoicesIndexRoute: typeof InvoicesIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -128,6 +180,20 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/expenses': {
+      id: '/expenses'
+      path: '/expenses'
+      fullPath: '/expenses'
+      preLoaderRoute: typeof ExpensesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/payments': {
+      id: '/payments'
+      path: '/payments'
+      fullPath: '/payments'
+      preLoaderRoute: typeof PaymentsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/bookings/': {
@@ -172,17 +238,35 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FleetIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/invoices/': {
+      id: '/invoices/'
+      path: '/invoices'
+      fullPath: '/invoices/'
+      preLoaderRoute: typeof InvoicesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/invoices/$id': {
+      id: '/invoices/$id'
+      path: '/invoices/$id'
+      fullPath: '/invoices/$id'
+      preLoaderRoute: typeof InvoicesIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ExpensesRoute: ExpensesRoute,
+  PaymentsRoute: PaymentsRoute,
   BookingsIdRoute: BookingsIdRoute,
   DriversIdRoute: DriversIdRoute,
   FleetIdRoute: FleetIdRoute,
+  InvoicesIdRoute: InvoicesIdRoute,
   BookingsIndexRoute: BookingsIndexRoute,
   DriversIndexRoute: DriversIndexRoute,
   FleetIndexRoute: FleetIndexRoute,
+  InvoicesIndexRoute: InvoicesIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
