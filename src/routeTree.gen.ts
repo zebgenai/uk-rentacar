@@ -10,12 +10,36 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as BookingsIndexRouteImport } from './routes/bookings.index'
+import { Route as BookingsIdRouteImport } from './routes/bookings.$id'
+import { Route as DriversIndexRouteImport } from './routes/drivers.index'
+import { Route as DriversIdRouteImport } from './routes/drivers.$id'
 import { Route as FleetIndexRouteImport } from './routes/fleet.index'
 import { Route as FleetIdRouteImport } from './routes/fleet.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BookingsIndexRoute = BookingsIndexRouteImport.update({
+  id: '/bookings/',
+  path: '/bookings/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BookingsIdRoute = BookingsIdRouteImport.update({
+  id: '/bookings/$id',
+  path: '/bookings/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DriversIndexRoute = DriversIndexRouteImport.update({
+  id: '/drivers/',
+  path: '/drivers/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DriversIdRoute = DriversIdRouteImport.update({
+  id: '/drivers/$id',
+  path: '/drivers/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FleetIndexRoute = FleetIndexRouteImport.update({
@@ -31,31 +55,69 @@ const FleetIdRoute = FleetIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/bookings/$id': typeof BookingsIdRoute
+  '/drivers/$id': typeof DriversIdRoute
   '/fleet/$id': typeof FleetIdRoute
+  '/bookings/': typeof BookingsIndexRoute
+  '/drivers/': typeof DriversIndexRoute
   '/fleet/': typeof FleetIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/bookings/$id': typeof BookingsIdRoute
+  '/drivers/$id': typeof DriversIdRoute
   '/fleet/$id': typeof FleetIdRoute
+  '/bookings': typeof BookingsIndexRoute
+  '/drivers': typeof DriversIndexRoute
   '/fleet': typeof FleetIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/bookings/$id': typeof BookingsIdRoute
+  '/drivers/$id': typeof DriversIdRoute
   '/fleet/$id': typeof FleetIdRoute
+  '/bookings/': typeof BookingsIndexRoute
+  '/drivers/': typeof DriversIndexRoute
   '/fleet/': typeof FleetIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/fleet/$id' | '/fleet/'
+  fullPaths:
+    | '/'
+    | '/bookings/$id'
+    | '/drivers/$id'
+    | '/fleet/$id'
+    | '/bookings/'
+    | '/drivers/'
+    | '/fleet/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/fleet/$id' | '/fleet'
-  id: '__root__' | '/' | '/fleet/$id' | '/fleet/'
+  to:
+    | '/'
+    | '/bookings/$id'
+    | '/drivers/$id'
+    | '/fleet/$id'
+    | '/bookings'
+    | '/drivers'
+    | '/fleet'
+  id:
+    | '__root__'
+    | '/'
+    | '/bookings/$id'
+    | '/drivers/$id'
+    | '/fleet/$id'
+    | '/bookings/'
+    | '/drivers/'
+    | '/fleet/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BookingsIdRoute: typeof BookingsIdRoute
+  DriversIdRoute: typeof DriversIdRoute
   FleetIdRoute: typeof FleetIdRoute
+  BookingsIndexRoute: typeof BookingsIndexRoute
+  DriversIndexRoute: typeof DriversIndexRoute
   FleetIndexRoute: typeof FleetIndexRoute
 }
 
@@ -66,6 +128,34 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/bookings/': {
+      id: '/bookings/'
+      path: '/bookings'
+      fullPath: '/bookings/'
+      preLoaderRoute: typeof BookingsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/bookings/$id': {
+      id: '/bookings/$id'
+      path: '/bookings/$id'
+      fullPath: '/bookings/$id'
+      preLoaderRoute: typeof BookingsIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/drivers/': {
+      id: '/drivers/'
+      path: '/drivers'
+      fullPath: '/drivers/'
+      preLoaderRoute: typeof DriversIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/drivers/$id': {
+      id: '/drivers/$id'
+      path: '/drivers/$id'
+      fullPath: '/drivers/$id'
+      preLoaderRoute: typeof DriversIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/fleet/': {
@@ -87,7 +177,11 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BookingsIdRoute: BookingsIdRoute,
+  DriversIdRoute: DriversIdRoute,
   FleetIdRoute: FleetIdRoute,
+  BookingsIndexRoute: BookingsIndexRoute,
+  DriversIndexRoute: DriversIndexRoute,
   FleetIndexRoute: FleetIndexRoute,
 }
 export const routeTree = rootRouteImport
